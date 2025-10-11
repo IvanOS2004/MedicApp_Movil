@@ -1,14 +1,4 @@
-import {
-  Calendar,
-  ChevronRight,
-  Heart,
-  Home,
-  MapPin,
-  Navigation,
-  Search,
-  Star,
-  User,
-} from "lucide-react-native";
+import { Calendar, ChevronRight, MapPin, Search } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   ScrollView,
@@ -18,22 +8,60 @@ import {
   View,
 } from "react-native";
 
-export default function MedicalAppUI() {
+import BottomNavigation from "../components/bottomNavigation";
+import Carousel from "../components/carousel";
+import Categories, { Category } from "../components/categories";
+import DoctorCard, { Doctor } from "../components/doctorCard";
+
+export default function Index() {
   const [activeTab, setActiveTab] = useState("home");
 
-  const categories = [
-    { name: "Dentistry", icon: "🦷", color: "bg-rose-200" },
-    { name: "Cardio...", icon: "💚", color: "bg-emerald-200" },
-    { name: "Pulmono...", icon: "🫁", color: "bg-orange-200" },
-    { name: "General", icon: "💜", color: "bg-purple-200" },
-    { name: "Neurology", icon: "🧠", color: "bg-indigo-900" },
-    { name: "Gastroen...", icon: "🫃", color: "bg-indigo-700" },
-    { name: "Laborato...", icon: "👶", color: "bg-rose-300" },
-    { name: "Vaccinat...", icon: "💉", color: "bg-cyan-200" },
+  const categories: Category[] = [
+    {
+      name: "Dentistry",
+      icon: "🦷",
+      color: "bg-rose-200",
+    },
+    {
+      name: "Cardio...",
+      icon: "💚",
+      color: "bg-emerald-200",
+    },
+    {
+      name: "Pulmono...",
+      icon: "🫁",
+      color: "bg-orange-200",
+    },
+    {
+      name: "General",
+      icon: "💜",
+      color: "bg-purple-200",
+    },
+    {
+      name: "Neurology",
+      icon: "🧠",
+      color: "bg-indigo-900",
+    },
+    {
+      name: "Gastroen...",
+      icon: "🫃",
+      color: "bg-indigo-700",
+    },
+    {
+      name: "Laborato...",
+      icon: "👶",
+      color: "bg-rose-300",
+    },
+    {
+      name: "Vaccinat...",
+      icon: "💉",
+      color: "bg-cyan-200",
+    },
   ];
 
-  const doctors = [
+  const doctors: Doctor[] = [
     {
+      id: "1",
       name: "Dr. David Patel",
       specialty: "Cardiologist",
       location: "Cardiology Center, USA",
@@ -41,6 +69,7 @@ export default function MedicalAppUI() {
       reviews: 1872,
     },
     {
+      id: "2",
       name: "Dr. Maria Gomez",
       specialty: "Dermatologist",
       location: "SkinCare Clinic, USA",
@@ -48,6 +77,21 @@ export default function MedicalAppUI() {
       reviews: 964,
     },
   ];
+
+  // Función press de doctores
+  const handleDoctorPress = (doctor: Doctor) => {
+    console.log("Doctor pressed:", doctor.name);
+  };
+
+  // Función press de categorías
+  const handleCategoryPress = (category: Category) => {
+    console.log("Category pressed:", category.name);
+  };
+
+  const handleTabPress = (tabKey: string) => {
+    setActiveTab(tabKey);
+    console.log("Tab pressed:", tabKey);
+  };
 
   return (
     <View className="flex-1 bg-gradient-to-b from-teal-50 to-white">
@@ -83,57 +127,15 @@ export default function MedicalAppUI() {
           </View>
         </View>
 
-        {/* Hero Banner */}
-        <View className="relative mx-4 mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-teal-700 to-teal-600 p-5">
-          <View className="flex-row justify-between">
-            <View className="flex-1">
-              <Text className="mb-1 text-xs text-white">
-                Trusted doctor on your schedule ✓
-              </Text>
-              <Text className="mb-3 text-2xl font-bold text-white">
-                Consult A Doctor{"\n"}— Book Today!
-              </Text>
-              <View className="flex-row items-center gap-2">
-                <View className="flex-row -space-x-2">
-                  <View className="h-7 w-7 rounded-full border-2 border-white bg-pink-300" />
-                  <View className="h-7 w-7 rounded-full border-2 border-white bg-blue-300" />
-                  <View className="h-7 w-7 rounded-full border-2 border-white bg-purple-300" />
-                </View>
-                <Text className="text-xs text-white">
-                  <Text className="font-bold">40,000+</Text>
-                  {"\n"}Happy Patients
-                </Text>
-              </View>
-            </View>
-            <View className="h-32 w-28 items-center justify-end rounded-xl bg-teal-500">
-              <Text className="mb-2 text-6xl">👨‍⚕️</Text>
-            </View>
-          </View>
-        </View>
+        {/* Carousel */}
+        <Carousel autoPlay={true} interval={4000} />
 
         {/* Categories */}
-        <View className="mb-6 px-4">
-          <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-lg font-bold text-gray-800">Categories</Text>
-            <TouchableOpacity>
-              <Text className="text-sm font-medium text-teal-600">See All</Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row flex-wrap justify-between">
-            {categories.map((cat, idx) => (
-              <View key={idx} className="w-[22%] mb-4 items-center">
-                <View
-                  className={`h-16 w-16 ${cat.color} mb-2 items-center justify-center rounded-xl`}
-                >
-                  <Text className="text-2xl">{cat.icon}</Text>
-                </View>
-                <Text className="text-center text-xs text-gray-700">
-                  {cat.name}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
+        <Categories
+          categories={categories}
+          showHeader={true}
+          onCategoryPress={handleCategoryPress}
+        />
 
         {/* Nearby Medical Centers */}
         <View className="mb-6 px-4">
@@ -146,37 +148,12 @@ export default function MedicalAppUI() {
             </TouchableOpacity>
           </View>
 
-          {doctors.map((doctor, idx) => (
-            <View
-              key={idx}
-              className="mb-3 flex-row items-start gap-3 rounded-xl bg-white p-4 shadow"
-            >
-              <View className="h-20 w-20 rounded-xl bg-gradient-to-b from-pink-200 to-pink-300" />
-              <View className="flex-1">
-                <Text className="mb-1 font-bold text-gray-800">
-                  {doctor.name}
-                </Text>
-                <Text className="mb-1 text-sm text-teal-600">
-                  {doctor.specialty}
-                </Text>
-                <View className="mb-2 flex-row items-center gap-1">
-                  <MapPin size={12} color="#6b7280" />
-                  <Text className="text-xs text-gray-500">
-                    {doctor.location}
-                  </Text>
-                </View>
-                <View className="flex-row items-center gap-1">
-                  <Star size={14} color="#f97316" fill="#f97316" />
-                  <Text className="text-sm font-medium text-gray-700">
-                    {doctor.rating}
-                  </Text>
-                  <Text className="text-xs text-gray-400">
-                    | {doctor.reviews} Reviews
-                  </Text>
-                </View>
-              </View>
-              <Heart size={20} color="#d1d5db" />
-            </View>
+          {doctors.map((doctor) => (
+            <DoctorCard
+              key={doctor.id}
+              doctor={doctor}
+              onPress={handleDoctorPress}
+            />
           ))}
         </View>
 
@@ -228,24 +205,7 @@ export default function MedicalAppUI() {
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View className="absolute bottom-0 left-0 right-0 mx-auto flex-row justify-between rounded-t-3xl bg-teal-900 px-6 py-4">
-        {[
-          { key: "home", icon: <Home size={24} /> },
-          { key: "explore", icon: <Navigation size={24} /> },
-          { key: "calendar", icon: <Calendar size={24} /> },
-          { key: "profile", icon: <User size={24} /> },
-        ].map((tab) => (
-          <TouchableOpacity
-            key={tab.key}
-            onPress={() => setActiveTab(tab.key)}
-            className={`items-center ${
-              activeTab === tab.key ? "text-white" : "text-teal-400"
-            }`}
-          >
-            {tab.icon}
-          </TouchableOpacity>
-        ))}
-      </View>
+      <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
   );
 }
