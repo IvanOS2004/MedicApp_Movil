@@ -106,6 +106,7 @@ export default function Index() {
               </Text>
               <ChevronRight size={16} color="#9ca3af" />
             </View>
+            {/* Notificationes */}
             <View className="relative h-8 w-8 items-center justify-center rounded-full bg-teal-700">
               <View className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500" />
               <Text className="text-xs text-white">👤</Text>
@@ -113,7 +114,7 @@ export default function Index() {
           </View>
 
           {/* Search Bar */}
-          <View className="relative">
+          <View className="flex-row items-center bg-white mx-4 mt-4 mb-3 px-3 rounded-xl border border-gray-200">
             <Search
               size={20}
               color="#9ca3af"
