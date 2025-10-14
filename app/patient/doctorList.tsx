@@ -1,5 +1,5 @@
-import { Link, Stack } from "expo-router";
-import { ChevronLeft, Search } from "lucide-react-native";
+import { Stack, router } from "expo-router";
+import { ArrowLeft, Bell, Search } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   SafeAreaView,
@@ -93,6 +93,10 @@ const DoctorsList = () => {
     console.log("Doctor pressed:", doctor.name);
   };
 
+  const handleBackPress = () => {
+    router.back();
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-teal-50">
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -104,17 +108,20 @@ const DoctorsList = () => {
       />
 
       {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3 bg-white">
-        <Link href=".." asChild>
-          <TouchableOpacity className="w-10 h-10 justify-center items-center">
-            <ChevronLeft size={24} color="#374151" />
-          </TouchableOpacity>
-        </Link>
-        <Text className="text-lg font-semibold text-gray-800">All Doctors</Text>
-        <TouchableOpacity className="w-10 h-10 justify-center items-center">
-          <View className="w-9 h-9 rounded-full bg-teal-100 justify-center items-center">
-            <Text className="text-base">👤</Text>
-          </View>
+      <View className="flex-row items-center justify-between px-4 py-4 bg-teal-50">
+        <TouchableOpacity
+          className="w-10 h-10 justify-center items-center"
+          onPress={handleBackPress}
+        >
+          <ArrowLeft size={24} color="#1F2937" />
+        </TouchableOpacity>
+        <Text className="text-lg font-semibold text-gray-900">
+          My Appointments
+        </Text>
+        {/* Notification Badge */}
+        <TouchableOpacity className="w-10 h-10 justify-center items-center relative">
+          <Bell size={24} color="#1F2937" />
+          <View className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         </TouchableOpacity>
       </View>
 
@@ -168,7 +175,6 @@ const DoctorsList = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Doctors List usando DoctorCard */}
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}

@@ -24,9 +24,13 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
     {
       key: "calendar",
       icon: <Calendar size={24} />,
-      href: "/patient/calendar",
+      href: "/patient/appointmentList",
     },
-    { key: "profile", icon: <User size={24} />, href: "/patient/profile" },
+    {
+      key: "profile",
+      icon: <User size={24} />,
+      href: "/",
+    },
   ],
 }) => {
   return (
