@@ -29,7 +29,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
     {
       key: "profile",
       icon: <User size={24} />,
-      href: "/",
+      href: "/patient/profilePatient",
     },
   ],
 }) => {

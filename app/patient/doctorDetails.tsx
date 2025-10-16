@@ -182,7 +182,6 @@ const DoctorDetails = () => {
     <SafeAreaView className="flex-1 bg-teal-50">
       <StatusBar barStyle="dark-content" backgroundColor="#CCEFEF" />
 
-      {/* 🔧 Stack Screen para ocultar el header automático */}
       <Stack.Screen
         options={{
           headerShown: false,
@@ -190,7 +189,6 @@ const DoctorDetails = () => {
         }}
       />
 
-      {/* Header Personalizado */}
       <View className="flex-row items-center justify-between px-4 py-4 bg-teal-50">
         <TouchableOpacity
           className="w-10 h-10 justify-center items-center"
