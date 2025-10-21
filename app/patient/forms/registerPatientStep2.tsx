@@ -1,22 +1,23 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   SafeAreaView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+import Input from "../../../components/InputForm";
 
 const RegisterPatientStep2 = () => {
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword] = useState(false);
+  const [showConfirmPassword] = useState(false);
 
   // Obtener parámetros del paso anterior
   const params = useLocalSearchParams();
@@ -95,59 +96,21 @@ const RegisterPatientStep2 = () => {
           For your security, please create a strong password.
         </Text>
 
-        {/* Contraseña */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">
-            Password
-          </Text>
-          <View className="relative">
-            <TextInput
-              className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 pr-12"
-              placeholder="Create a password"
-              secureTextEntry={!showPassword}
-              value={formData.password}
-              onChangeText={(value) => handleInputChange("password", value)}
-            />
-            <TouchableOpacity
-              className="absolute right-3 top-3"
-              onPress={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <EyeOff size={20} color="#6B7280" />
-              ) : (
-                <Eye size={20} color="#6B7280" />
-              )}
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Input
+          label="Password"
+          placeholder="Create a password"
+          secureTextEntry={!showPassword}
+          value={formData.password}
+          onChangeText={(value) => handleInputChange("password", value)}
+        />
 
-        {/* Confirmar Contraseña */}
-        <View className="mb-6">
-          <Text className="text-sm font-medium text-gray-700 mb-2">
-            Confirm Password
-          </Text>
-          <View className="relative">
-            <TextInput
-              className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 pr-12"
-              placeholder="Confirm your password"
-              secureTextEntry={!showConfirmPassword}
-              value={formData.confirmPassword}
-              onChangeText={(value) =>
-                handleInputChange("confirmPassword", value)
-              }
-            />
-            <TouchableOpacity
-              className="absolute right-3 top-3"
-              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
-              {showConfirmPassword ? (
-                <EyeOff size={20} color="#6B7280" />
-              ) : (
-                <Eye size={20} color="#6B7280" />
-              )}
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Input
+          label="Confirm Password"
+          placeholder="Confirm your password"
+          secureTextEntry={!showConfirmPassword}
+          value={formData.confirmPassword}
+          onChangeText={(value) => handleInputChange("confirmPassword", value)}
+        />
 
         {/* Información de requisitos de contraseña */}
         <View className="mb-6 p-4 bg-gray-50 rounded-xl">

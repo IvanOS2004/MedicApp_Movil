@@ -5,10 +5,11 @@ import {
   SafeAreaView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+import Input from "../../../components/InputForm";
 
 const RegisterPatientStep1 = () => {
   const [formData, setFormData] = useState({
@@ -75,34 +76,22 @@ const RegisterPatientStep1 = () => {
           We'll use this to verify your account and keep you updated.
         </Text>
 
-        {/* Teléfono */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">
-            Phone Number
-          </Text>
-          <TextInput
-            className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
-            placeholder="Enter your phone number"
-            keyboardType="phone-pad"
-            value={formData.phone}
-            onChangeText={(value) => handleInputChange("phone", value)}
-          />
-        </View>
+        <Input
+          label="Phone Number"
+          placeholder="Enter your phone number"
+          keyboardType="phone-pad"
+          value={formData.phone}
+          onChangeText={(value) => handleInputChange("phone", value)}
+        />
 
-        {/* Email */}
-        <View className="mb-6">
-          <Text className="text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </Text>
-          <TextInput
-            className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={formData.email}
-            onChangeText={(value) => handleInputChange("email", value)}
-          />
-        </View>
+        <Input
+          label="Email Address"
+          placeholder="Enter your email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={formData.email}
+          onChangeText={(value) => handleInputChange("email", value)}
+        />
 
         {/* Botón Siguiente */}
         <TouchableOpacity
