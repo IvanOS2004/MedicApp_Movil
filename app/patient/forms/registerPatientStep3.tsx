@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Stack, router } from "expo-router";
-import { ArrowLeft, Calendar, Eye, EyeOff } from "lucide-react-native";
+import { Stack, router, useLocalSearchParams } from "expo-router";
+import { ArrowLeft, Calendar } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   Alert,
@@ -13,14 +13,11 @@ import {
   View,
 } from "react-native";
 
-const PatientRegister = () => {
+const RegisterPatientStep3 = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     dateOfBirth: new Date(),
     gender: "",
-    phone: "",
-    email: "",
-    password: "",
     allergies: "",
     chronicConditions: "",
     medications: "",
@@ -29,9 +26,11 @@ const PatientRegister = () => {
     insuranceNumber: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const params = useLocalSearchParams();
+  const { phone, email, password } = params;
 
   const calculateAge = (birthDate: Date) => {
     const today = new Date();
@@ -66,29 +65,30 @@ const PatientRegister = () => {
   };
 
   const handleRegister = async () => {
-    if (
-      !formData.fullName ||
-      !formData.phone ||
-      !formData.email ||
-      !formData.password
-    ) {
+    /*
+    if (!formData.fullName) {
       Alert.alert("Error", "Please fill in all required fields");
       return;
     }
-
-    if (formData.password.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters long");
-      return;
-    }
+    */
 
     setLoading(true);
 
     try {
-      console.log("Registering patient:", formData);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      Alert.alert("Success", "Account created successfully!", [
-        { text: "OK", onPress: () => router.replace("/") },
-      ]);
+      const completeData = {
+        ...formData,
+        phone,
+        email,
+        password,
+      };
+
+      console.log("Registering patient:", completeData);
+
+      // Simular registro
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Navegar directamente a home
+      router.replace("/home");
     } catch (error) {
       Alert.alert("Error", "Failed to create account. Please try again.");
     } finally {
@@ -108,9 +108,9 @@ const PatientRegister = () => {
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
+      {/* Header */}
       <Stack.Screen options={{ headerShown: false }} />
 
-      {/* Header */}
       <View className="flex-row items-center px-4 py-4 border-b border-gray-200">
         <TouchableOpacity
           className="w-10 h-10 justify-center items-center"
@@ -119,7 +119,7 @@ const PatientRegister = () => {
           <ArrowLeft size={24} color="#1F2937" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold text-gray-900 ml-2">
-          Patient Registration
+          Step 3 of 3 - Medical Info
         </Text>
       </View>
 
@@ -137,7 +137,7 @@ const PatientRegister = () => {
           {/* Nombre Completo */}
           <View className="mb-4">
             <Text className="text-sm font-medium text-gray-700 mb-2">
-              Full Name *
+              Full Name
             </Text>
             <TextInput
               className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
@@ -150,7 +150,7 @@ const PatientRegister = () => {
           {/* Fecha de Nacimiento */}
           <View className="mb-4">
             <Text className="text-sm font-medium text-gray-700 mb-2">
-              Date of Birth *
+              Date of Birth
             </Text>
             <TouchableOpacity
               className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 flex-row items-center justify-between"
@@ -206,71 +206,8 @@ const PatientRegister = () => {
             </View>
           </View>
 
-          {/* Información de Contacto */}
-          <Text className="text-lg font-bold text-gray-900 mb-4 mt-6">
-            Contact Information
-          </Text>
-
-          {/* Teléfono */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
-              Phone Number *
-            </Text>
-            <TextInput
-              className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
-              placeholder="Enter your phone number"
-              keyboardType="phone-pad"
-              value={formData.phone}
-              onChangeText={(value) => handleInputChange("phone", value)}
-            />
-          </View>
-
-          {/* Email */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
-              Email Address *
-            </Text>
-            <TextInput
-              className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900"
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={formData.email}
-              onChangeText={(value) => handleInputChange("email", value)}
-            />
-          </View>
-
-          {/* Contraseña */}
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
-              Password *
-            </Text>
-            <View className="relative">
-              <TextInput
-                className="bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 pr-12"
-                placeholder="Create a password"
-                secureTextEntry={!showPassword}
-                value={formData.password}
-                onChangeText={(value) => handleInputChange("password", value)}
-              />
-              <TouchableOpacity
-                className="absolute right-3 top-3"
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff size={20} color="#6B7280" />
-                ) : (
-                  <Eye size={20} color="#6B7280" />
-                )}
-              </TouchableOpacity>
-            </View>
-            <Text className="text-xs text-gray-500 mt-1">
-              Must be at least 6 characters long
-            </Text>
-          </View>
-
           {/* Información Médica */}
-          <Text className="text-lg font-bold text-gray-900 mb-4">
+          <Text className="text-lg font-bold text-gray-900 mb-4 mt-6">
             Medical Information
           </Text>
 
@@ -382,24 +319,13 @@ const PatientRegister = () => {
             disabled={loading}
           >
             <Text className="text-white font-bold text-base">
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? "Creating Account..." : "Complete Registration"}
             </Text>
           </TouchableOpacity>
-
-          {/* Enlace a Login */}
-          <View className="flex-row justify-center mt-4">
-            <Text className="text-gray-600">Already have an account? </Text>
-            <Text
-              className="text-teal-600 font-semibold"
-              onPress={() => router.push("/patient/forms/loginPatient")}
-            >
-              Sign In
-            </Text>
-          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default PatientRegister;
+export default RegisterPatientStep3;

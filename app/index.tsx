@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-const index = () => {
+const roleSelection = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -30,7 +30,7 @@ const index = () => {
         {/* Paciente */}
         <TouchableOpacity
           className="bg-teal-50 border-2 border-teal-200 rounded-3xl p-6 mb-6 active:bg-teal-100"
-          onPress={() => router.push("/patient/forms/registerPatient")}
+          onPress={() => router.push("/patient/forms/registerPatientStep1")}
         >
           <View className="flex-row items-center">
             <View className="w-16 h-16 bg-teal-100 rounded-2xl items-center justify-center mr-4">
@@ -91,4 +91,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default roleSelection;
