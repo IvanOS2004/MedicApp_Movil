@@ -121,7 +121,15 @@ const DoctorDetails = () => {
 
   // Función reserva de cita
   const handleBookAppointment = () => {
-    console.log("Book appointment with:", doctor.name);
+    router.push({
+      pathname: "/patient/appointmentCalendar",
+      params: {
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        doctorSpecialty: doctor.specialty,
+        doctorImage: doctor.image,
+      },
+    });
   };
 
   const renderStat = (stat: any, index: number) => {
