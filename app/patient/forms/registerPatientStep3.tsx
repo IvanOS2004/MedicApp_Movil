@@ -1,8 +1,11 @@
+import Checkbox from "expo-checkbox";
+import * as ImagePicker from "expo-image-picker";
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ArrowLeft, Camera } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   Alert,
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -30,6 +33,8 @@ const RegisterPatientStep3 = () => {
     insuranceNumber: "",
   });
 
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const params = useLocalSearchParams();
@@ -66,13 +71,48 @@ const RegisterPatientStep3 = () => {
     }));
   };
 
-  const handleRegister = async () => {
-    /*
-    if (!formData.firstName || !formData.lastName) {
-      Alert.alert("Error", "Por favor completa todos los campos requeridos");
+  const pickImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert("Permiso denegado", "Se requiere acceso a tus fotos.");
       return;
     }
-    */
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!formData.firstName || !formData.lastName) {
+      Alert.alert(
+        "Campos faltantes",
+        "Por favor completa tu nombre y apellido."
+      );
+      return;
+    }
+
+    if (!profileImage) {
+      Alert.alert(
+        "Foto de perfil requerida",
+        "Por favor sube una foto de perfil."
+      );
+      return;
+    }
+
+    if (!termsAccepted) {
+      Alert.alert(
+        "Términos no aceptados",
+        "Debes aceptar los términos y condiciones antes de continuar."
+      );
+      return;
+    }
 
     setLoading(true);
 
@@ -82,31 +122,26 @@ const RegisterPatientStep3 = () => {
         phone,
         email,
         password,
+        profileImage,
       };
 
       console.log("Registering patient:", completeData);
-
       await new Promise((resolve) => setTimeout(resolve, 1500));
-
       router.replace("/home");
     } catch (error) {
-      Alert.alert(
-        "Error",
-        "Error al crear la cuenta. Por favor intenta de nuevo."
-      );
+      Alert.alert("Error", "Error al crear la cuenta. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-teal-50">
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
-      <View className="flex-row items-center px-4 py-4 border-b border-gray-200">
+      <View className="flex-row items-center px-4 py-4 border-b border-gray-200 bg-teal-50">
         <TouchableOpacity
           className="w-10 h-10 justify-center items-center"
           onPress={() => router.back()}
@@ -124,12 +159,31 @@ const RegisterPatientStep3 = () => {
         contentContainerStyle={{ paddingBottom: 40 }}
       >
         <View className="px-4 pt-6">
+          {/* Imagen de perfil */}
+          <View className="items-center mb-6">
+            <TouchableOpacity
+              onPress={pickImage}
+              className="w-28 h-28 rounded-full bg-gray-100 justify-center items-center border-2 border-dashed border-gray-400"
+            >
+              {profileImage ? (
+                <Image
+                  source={{ uri: profileImage }}
+                  className="w-28 h-28 rounded-full"
+                />
+              ) : (
+                <View className="items-center">
+                  <Camera size={28} color="#6B7280" />
+                  <Text className="text-gray-500 text-sm mt-1">Subir foto</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+
           {/* Información Personal */}
           <Text className="text-lg font-bold text-gray-900 mb-4">
             Información Personal
           </Text>
 
-          {/* Nombres */}
           <View className="flex-row space-x-3">
             <Input
               label="Nombres *"
@@ -147,7 +201,6 @@ const RegisterPatientStep3 = () => {
             />
           </View>
 
-          {/* Fecha de Nacimiento */}
           <DatePicker
             label="Fecha de Nacimiento *"
             selectedDate={formData.dateOfBirth}
@@ -155,7 +208,6 @@ const RegisterPatientStep3 = () => {
             showAge={true}
           />
 
-          {/* Género */}
           <DropdownButtom
             label="Género"
             selectedValue={formData.gender}
@@ -169,7 +221,6 @@ const RegisterPatientStep3 = () => {
             Información Médica
           </Text>
 
-          {/* Tipo de Alergia */}
           <DropdownButtom
             label="Tipo de Alergia"
             selectedValue={formData.allergyType}
@@ -178,40 +229,36 @@ const RegisterPatientStep3 = () => {
             placeholder="Selecciona tipo de alergia"
           />
 
-          {/* Descripción de Alergias */}
           <TextArea
             label="Descripción de Alergias (Opcional)"
-            placeholder="Describe tus alergias en detalle..."
+            placeholder="Describe tus alergias..."
             value={formData.allergyDescription}
             onChangeText={(value) =>
               handleInputChange("allergyDescription", value)
             }
           />
 
-          {/* Condiciones Crónicas */}
           <TextArea
             label="Condiciones Crónicas"
-            placeholder="Ej: diabetes, hipertensión, asma..."
+            placeholder="Ej: diabetes, hipertensión..."
             value={formData.chronicConditions}
             onChangeText={(value) =>
               handleInputChange("chronicConditions", value)
             }
           />
 
-          {/* Medicamentos */}
           <TextArea
             label="Medicamentos Frecuentes"
-            placeholder="Lista de medicamentos que tomas regularmente..."
+            placeholder="Medicamentos que tomas regularmente..."
             value={formData.medications}
             onChangeText={(value) => handleInputChange("medications", value)}
           />
 
-          {/* Información del Seguro */}
-          <Text className="text-lg font-bold text-gray-900 mb-4">
+          {/* Seguro */}
+          <Text className="text-lg font-bold text-gray-900 mb-4 mt-6">
             Información del Seguro
           </Text>
 
-          {/* Compañía de Seguros */}
           <Input
             label="Compañía de Seguros"
             placeholder="Nombre de tu aseguradora"
@@ -221,7 +268,6 @@ const RegisterPatientStep3 = () => {
             }
           />
 
-          {/* Número de Póliza */}
           <Input
             label="Número de Póliza"
             placeholder="Tu número de póliza"
@@ -230,6 +276,23 @@ const RegisterPatientStep3 = () => {
               handleInputChange("insuranceNumber", value)
             }
           />
+
+          {/* Términos y condiciones */}
+          <View className="flex-row items-center mt-6 mb-6">
+            <Checkbox
+              value={termsAccepted}
+              onValueChange={setTermsAccepted}
+              color={termsAccepted ? "#0D9488" : undefined}
+              style={{ marginRight: 8 }}
+            />
+            <Text className="text-gray-700 flex-1">
+              Acepto los{" "}
+              <Text className="text-teal-600 font-semibold">
+                Términos y Condiciones
+              </Text>{" "}
+              de la aplicación.
+            </Text>
+          </View>
 
           {/* Botón de Registro */}
           <TouchableOpacity
