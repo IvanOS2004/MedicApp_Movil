@@ -50,12 +50,12 @@ const RegisterPatientStep1 = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <SafeAreaView className="flex-1 bg-teal-50">
+      <StatusBar barStyle="dark-content" />
 
-      {/* Header */}
       <Stack.Screen options={{ headerShown: false }} />
 
+      {/* Header */}
       <View className="flex-row items-center px-4 py-4 border-b border-gray-200">
         <TouchableOpacity
           className="w-10 h-10 justify-center items-center"

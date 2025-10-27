@@ -70,8 +70,8 @@ const RegisterPatientStep2 = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <SafeAreaView className="flex-1 bg-teal-50">
+      <StatusBar barStyle="dark-content" />
 
       {/* Header */}
       <Stack.Screen options={{ headerShown: false }} />
@@ -113,7 +113,7 @@ const RegisterPatientStep2 = () => {
         />
 
         {/* Información de requisitos de contraseña */}
-        <View className="mb-6 p-4 bg-gray-50 rounded-xl">
+        <View className="mb-6 p-4 bg-teal-50 rounded-xl">
           <Text className="text-sm font-medium text-gray-700 mb-2">
             Password Requirements:
           </Text>

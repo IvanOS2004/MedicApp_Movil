@@ -94,10 +94,10 @@ export default function home() {
   };
 
   return (
-    <View className="flex-1 bg-gradient-to-b from-teal-50 to-white">
+    <View className="flex-1 bg-teal-50">
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Header */}
-        <View className="bg-white p-4 pb-6">
+        <View className="bg-teal-50 p-4 pb-6">
           <View className="mb-4 flex-row items-center justify-between">
             <View className="flex-row items-center gap-2">
               <MapPin size={18} color="#0f766e" />
@@ -129,7 +129,11 @@ export default function home() {
         </View>
 
         {/* Carousel */}
-        <Carousel autoPlay={true} interval={4000} />
+        <View className="mb-6">
+          <View className="w-full">
+            <Carousel autoPlay={true} interval={4000} />
+          </View>
+        </View>
 
         {/* Categories */}
         <Categories

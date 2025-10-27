@@ -29,7 +29,7 @@ const PatientLogin = () => {
   };
 
   const handleLogin = async () => {
-    if (!formData.password) {
+    /*if (!formData.password) {
       Alert.alert("Error", "Please enter your password");
       return;
     }
@@ -42,7 +42,7 @@ const PatientLogin = () => {
     if (loginMethod === "phone" && !formData.phone) {
       Alert.alert("Error", "Please enter your phone number");
       return;
-    }
+    }*/
 
     setLoading(true);
 
@@ -58,8 +58,8 @@ const PatientLogin = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <SafeAreaView className="flex-1 bg-teal-50">
+      <StatusBar barStyle="dark-content" />
 
       <Stack.Screen options={{ headerShown: false }} />
 
@@ -78,16 +78,16 @@ const PatientLogin = () => {
 
       <View className="flex-1 px-4 pt-8">
         {/* Método de Login */}
-        <View className="flex-row bg-gray-100 rounded-xl p-1 mb-6">
+        <View className="flex-row bg-teal-200 rounded-xl p-1 mb-6">
           <TouchableOpacity
             className={`flex-1 py-3 rounded-lg ${
-              loginMethod === "email" ? "bg-white shadow-sm" : ""
+              loginMethod === "email" ? "bg-teal-600 shadow-sm" : ""
             }`}
             onPress={() => setLoginMethod("email")}
           >
             <Text
               className={`text-center font-medium ${
-                loginMethod === "email" ? "text-teal-700" : "text-gray-600"
+                loginMethod === "email" ? "text-white" : "text-black"
               }`}
             >
               Email
@@ -95,13 +95,13 @@ const PatientLogin = () => {
           </TouchableOpacity>
           <TouchableOpacity
             className={`flex-1 py-3 rounded-lg ${
-              loginMethod === "phone" ? "bg-white shadow-sm" : ""
+              loginMethod === "phone" ? "bg-teal-600 shadow-sm" : ""
             }`}
             onPress={() => setLoginMethod("phone")}
           >
             <Text
               className={`text-center font-medium ${
-                loginMethod === "phone" ? "text-teal-700" : "text-gray-600"
+                loginMethod === "phone" ? "text-white" : "text-black"
               }`}
             >
               Phone

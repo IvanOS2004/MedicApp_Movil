@@ -10,7 +10,7 @@ import {
 
 const roleSelection = () => {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-teal-50">
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <Stack.Screen options={{ headerShown: false }} />

@@ -1,10 +1,8 @@
 import Checkbox from "expo-checkbox";
-import * as ImagePicker from "expo-image-picker";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { ArrowLeft, Camera } from "lucide-react-native";
 import React, { useState } from "react";
 import {
-  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -72,7 +70,7 @@ const RegisterPatientStep3 = () => {
   };
 
   const pickImage = async () => {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    /*const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
       Alert.alert("Permiso denegado", "Se requiere acceso a tus fotos.");
       return;
@@ -86,11 +84,11 @@ const RegisterPatientStep3 = () => {
 
     if (!result.canceled) {
       setProfileImage(result.assets[0].uri);
-    }
+    }*/
   };
 
   const handleRegister = async () => {
-    if (!formData.firstName || !formData.lastName) {
+    /*if (!formData.firstName || !formData.lastName) {
       Alert.alert(
         "Campos faltantes",
         "Por favor completa tu nombre y apellido."
@@ -112,7 +110,7 @@ const RegisterPatientStep3 = () => {
         "Debes aceptar los términos y condiciones antes de continuar."
       );
       return;
-    }
+    }*/
 
     setLoading(true);
 

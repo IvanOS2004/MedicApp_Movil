@@ -19,7 +19,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
   activeTab,
   onTabPress,
   tabs = [
-    { key: "home", icon: <Home size={24} />, href: "/" },
+    { key: "home", icon: <Home size={24} />, href: "/home" },
     { key: "explore", icon: <Search size={24} />, href: "/patient/doctorList" },
     {
       key: "calendar",
