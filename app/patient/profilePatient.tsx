@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   Bell,
   ChevronRight,
-  Edit,
   Heart,
   LogOut,
   MessageCircle,
@@ -49,22 +48,22 @@ const ProfileScreen = () => {
     console.log(`${itemLabel} pressed`);
     switch (itemLabel) {
       case "Edit Profile":
-        // router.push("/edit-profile");
+        router.push("/patient/profile/editProfile");
         break;
       case "Favorite":
-        // router.push("/favorites");
+        router.push("/patient/profile/favorites");
         break;
       case "Notifications":
-        // router.push("/notifications");
+        router.push("/patient/profile/notifications");
         break;
       case "Settings":
-        // router.push("/settings");
+        router.push("/patient/profile/settings");
         break;
       case "Help and Support":
-        // router.push("/help-support");
+        router.push("/patient/profile/helpSupport");
         break;
       case "Terms and Conditions":
-        // router.push("/terms-conditions");
+        router.push("/patient/profile/termsConditions");
         break;
       default:
         break;
@@ -74,11 +73,6 @@ const ProfileScreen = () => {
   const handleLogout = () => {
     console.log("Logout pressed");
     alert("Logout functionality would go here");
-  };
-
-  const handleEditProfile = () => {
-    console.log("Edit profile picture pressed");
-    alert("Edit profile picture functionality would go here");
   };
 
   const renderMenuItem = (item: any, index: number) => {
@@ -105,7 +99,6 @@ const ProfileScreen = () => {
       <Stack.Screen
         options={{
           headerShown: false,
-          title: "Profile",
         }}
       />
 
@@ -135,12 +128,6 @@ const ProfileScreen = () => {
               }}
               className="w-36 h-36 rounded-full bg-gray-300"
             />
-            <TouchableOpacity
-              className="absolute bottom-0 right-0 w-10 h-10 bg-teal-800 rounded-full items-center justify-center border-4 border-teal-50 active:bg-teal-900"
-              onPress={handleEditProfile}
-            >
-              <Edit size={18} color="#FFFFFF" />
-            </TouchableOpacity>
           </View>
 
           <Text className="text-xl font-bold text-gray-900 mb-1">
