@@ -54,7 +54,7 @@ const roleSelection = () => {
         {/* Doctor */}
         <TouchableOpacity
           className="bg-blue-50 border-2 border-blue-200 rounded-3xl p-6 active:bg-blue-100"
-          onPress={() => router.push("..")}
+          onPress={() => router.push("/doctor/forms/registerDoctorStep1")}
         >
           <View className="flex-row items-center">
             <View className="w-16 h-16 bg-blue-100 rounded-2xl items-center justify-center mr-4">
