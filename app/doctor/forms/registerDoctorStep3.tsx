@@ -81,7 +81,7 @@ const RegisterDoctorStep3 = () => {
 
       console.log("Doctor registrado:", completeData);
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      router.replace("/home");
+      router.replace("/doctor/profile/profileDoctorHome");
     } finally {
       setLoading(false);
     }

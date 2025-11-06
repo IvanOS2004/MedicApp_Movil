@@ -140,7 +140,7 @@ const RegisterDoctorStep2 = () => {
           Completa tus datos profesionales para validar tu perfil.
         </Text>
 
-        {/* Nombre*/}
+        {/* Nombre y apellidos*/}
         <View className="flex-row space-x-3">
           <Input
             label="Nombres *"
@@ -158,6 +158,7 @@ const RegisterDoctorStep2 = () => {
           />
         </View>
 
+        {/* Especialidad*/}
         <DropdownButtom
           label="Especialidad Médica"
           selectedValue={formData.specialty}
@@ -166,6 +167,7 @@ const RegisterDoctorStep2 = () => {
           placeholder="Selecciona tu especialización médica"
         />
 
+        {/* Sub Especialidad*/}
         <DropdownButtom
           label="Sub-Especialidad Médica"
           selectedValue={formData.subSpecialties}
