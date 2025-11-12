@@ -1,99 +1,102 @@
-import { CheckCircle, ClipboardList, Clock } from "lucide-react-native";
+import { router, Stack } from "expo-router";
+import { ArrowLeft, Calendar } from "lucide-react-native";
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import DoctorAppointmentCard from "../../../components/doctorAppointmentCard";
 import DoctorBottomNavigation from "../../../components/doctorBottomNavigation";
 
-export default function DoctorHome() {
+export default function DoctorSolicitudes() {
   const [activeTab, setActiveTab] = useState("home");
 
-  const [appointments] = useState([
+  // 🗓️ Solicitudes pendientes simuladas
+  const [appointments, setAppointments] = useState([
     {
       id: 1,
-      name: "María López",
-      date: "27 Oct, 10:00 AM",
-      status: "pendiente",
+      patientName: "María López",
+      date: "2025-10-28",
+      time: "10:00 AM",
+      reason: "Dolor de cabeza recurrente. Posible migraña.",
+      image: "https://randomuser.me/api/portraits/women/45.jpg",
     },
     {
       id: 2,
-      name: "Carlos Pérez",
-      date: "27 Oct, 12:30 PM",
-      status: "en curso",
+      patientName: "Carlos Pérez",
+      date: "2025-10-29",
+      time: "12:30 PM",
+      reason: "Revisión post-operatoria. Seguimiento de cicatriz.",
+      image: "https://randomuser.me/api/portraits/men/22.jpg",
     },
     {
       id: 3,
-      name: "Ana Torres",
-      date: "26 Oct, 3:00 PM",
-      status: "finalizada",
+      patientName: "Ana Torres",
+      date: "2025-10-30",
+      time: "3:00 PM",
+      reason: "Control de diabetes y ajuste de dosis.",
+      image: "https://randomuser.me/api/portraits/women/32.jpg",
     },
   ]);
 
+  const handleReject = (id: number) => {
+    setAppointments((prev) => prev.filter((a) => a.id !== id));
+  };
+
+  const handleAccept = (id: number) => {
+    setAppointments((prev) => prev.filter((a) => a.id !== id));
+  };
+
   return (
-    <SafeAreaView className="flex-1 bg-teal-50 pb-20">
-      <ScrollView className="px-4 pt-6">
-        <Text className="text-2xl font-bold text-gray-900 mb-4">
-          Bienvenido, Doctor 👋
+    <SafeAreaView className="flex-1 bg-teal-50">
+      <StatusBar barStyle="dark-content" backgroundColor="#CCEFEF" />
+      <Stack.Screen options={{ headerShown: false }} />
+      <View className="flex-row items-center justify-between px-4 py-4 bg-teal-50">
+        <TouchableOpacity
+          className="w-10 h-10 justify-center items-center"
+          onPress={() => router.back()}
+        >
+          <ArrowLeft size={24} color="#1F2937" />
+        </TouchableOpacity>
+        <Text className="text-lg font-semibold text-gray-900">
+          Agenda Médica
         </Text>
+        <View className="w-10" />
+      </View>
 
-        <Text className="text-lg font-semibold text-teal-600 mb-2">
-          Solicitudes de Cita
-        </Text>
-        {appointments
-          .filter((a) => a.status === "pendiente")
-          .map((a) => (
-            <View
-              key={a.id}
-              className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-teal-100"
-            >
-              <View className="flex-row justify-between items-center">
-                <Text className="font-semibold text-gray-800">{a.name}</Text>
-                <Clock size={20} color="#0D9488" />
-              </View>
-              <Text className="text-gray-600 mt-1">{a.date}</Text>
-              <Text className="text-teal-600 font-medium mt-2">
-                Estado: Pendiente
-              </Text>
-            </View>
-          ))}
+      {/* 🔹 Encabezado */}
+      <View className="flex-row items-center justify-between px-4 py-4 bg-teal-50">
+        <View className="flex-row items-center">
+          <Calendar size={22} color="#0D9488" />
+          <Text className="text-lg font-bold text-gray-900 ml-2">
+            Solicitudes de Citas Médicas
+          </Text>
+        </View>
+      </View>
 
-        <Text className="text-lg font-semibold text-teal-600 mt-6 mb-2">
-          Citas en Curso
-        </Text>
-        {appointments
-          .filter((a) => a.status === "en curso")
-          .map((a) => (
-            <View
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        {appointments.length === 0 ? (
+          <Text className="text-gray-500 text-center mt-10">
+            No hay solicitudes pendientes.
+          </Text>
+        ) : (
+          appointments.map((a) => (
+            <DoctorAppointmentCard
               key={a.id}
-              className="bg-white rounded-xl p-4 mb-3 border border-teal-100 shadow-sm"
-            >
-              <View className="flex-row justify-between items-center">
-                <Text className="font-semibold text-gray-800">{a.name}</Text>
-                <ClipboardList size={20} color="#0D9488" />
-              </View>
-              <Text className="text-gray-600 mt-1">{a.date}</Text>
-              <Text className="text-teal-600 font-medium mt-2">
-                En Progreso
-              </Text>
-            </View>
-          ))}
-
-        <Text className="text-lg font-semibold text-teal-600 mt-6 mb-2">
-          Citas Finalizadas
-        </Text>
-        {appointments
-          .filter((a) => a.status === "finalizada")
-          .map((a) => (
-            <View
-              key={a.id}
-              className="bg-white rounded-xl p-4 mb-3 border border-teal-100 shadow-sm"
-            >
-              <View className="flex-row justify-between items-center">
-                <Text className="font-semibold text-gray-800">{a.name}</Text>
-                <CheckCircle size={20} color="#0D9488" />
-              </View>
-              <Text className="text-gray-600 mt-1">{a.date}</Text>
-              <Text className="text-gray-500 font-medium mt-2">Finalizada</Text>
-            </View>
-          ))}
+              appointment={a}
+              onCancel={handleReject}
+              onReschedule={handleAccept}
+            />
+          ))
+        )}
       </ScrollView>
 
       <DoctorBottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />

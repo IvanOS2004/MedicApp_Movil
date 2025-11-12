@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { CalendarDays, ClipboardList, User } from "lucide-react-native";
+import { CalendarDays, ClipboardList, Star, User } from "lucide-react-native";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
@@ -33,6 +33,11 @@ const DoctorBottomNavigation: React.FC<DoctorBottomNavigationProps> = ({
       key: "profile",
       icon: <User size={24} />,
       href: "/doctor/profile/settingDoctor",
+    },
+    {
+      key: "reviews",
+      icon: <Star size={24} />,
+      href: "/doctor/profile/reviewsDoctor",
     },
   ],
 }) => {

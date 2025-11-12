@@ -1,6 +1,11 @@
 import Checkbox from "expo-checkbox";
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { ArrowLeft, Camera } from "lucide-react-native";
+import {
+  ArrowLeft,
+  Camera,
+  ClipboardList,
+  CreditCard,
+} from "lucide-react-native";
 import React, { useState } from "react";
 import {
   Image,
@@ -8,10 +13,10 @@ import {
   ScrollView,
   StatusBar,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-
 import Input from "../../../components/InputForm";
 import TextArea from "../../../components/TextareaForm";
 
@@ -32,6 +37,12 @@ const RegisterDoctorStep3 = () => {
     services: "",
     consultationCost: "",
     workingHours: "",
+    paymentMethod: "", // ✅ nuevo campo
+    cardHolderName: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+    bankAccount: "",
   });
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -46,21 +57,7 @@ const RegisterDoctorStep3 = () => {
   };
 
   const pickImage = async () => {
-    /*const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permission.granted) {
-      Alert.alert("Permiso denegado", "Se requiere acceso a tus fotos.");
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 0.8,
-    });
-
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
-    }*/
+    /* Lógica de selección de imagen (ya implementada) */
   };
 
   const handleRegister = async () => {
@@ -158,6 +155,170 @@ const RegisterDoctorStep3 = () => {
             value={formData.workingHours}
             onChangeText={(value) => handleInputChange("workingHours", value)}
           />
+
+          {/* Método de Pago */}
+          <Text className="text-lg font-bold text-gray-900 mt-6 mb-2">
+            Método de Pago
+          </Text>
+
+          <View className="flex-row justify-between">
+            {/* Tarjeta de Crédito */}
+            <TouchableOpacity
+              onPress={() => handleInputChange("paymentMethod", "tarjeta")}
+              className={`flex-1 flex-row items-center justify-between py-4 px-4 mx-1 rounded-2xl border ${
+                formData.paymentMethod === "tarjeta"
+                  ? "bg-teal-600 border-teal-700"
+                  : "bg-white border-gray-300"
+              }`}
+            >
+              <View className="flex-row items-center">
+                <CreditCard
+                  size={20}
+                  color={
+                    formData.paymentMethod === "tarjeta" ? "#FFFFFF" : "#0D9488"
+                  }
+                />
+                <Text
+                  className={`ml-2 font-semibold ${
+                    formData.paymentMethod === "tarjeta"
+                      ? "text-white"
+                      : "text-teal-700"
+                  }`}
+                >
+                  Tarjeta
+                </Text>
+              </View>
+
+              {/* Icono de selección */}
+              {formData.paymentMethod === "tarjeta" ? (
+                <View className="w-5 h-5 rounded-full bg-white items-center justify-center">
+                  <View className="w-3 h-3 rounded-full bg-teal-600" />
+                </View>
+              ) : (
+                <View className="w-5 h-5 rounded-full border border-gray-400" />
+              )}
+            </TouchableOpacity>
+
+            {/* Transferencia Bancaria */}
+            <TouchableOpacity
+              onPress={() =>
+                handleInputChange("paymentMethod", "transferencia")
+              }
+              className={`flex-1 flex-row items-center justify-between py-4 px-4 mx-1 rounded-2xl border ${
+                formData.paymentMethod === "transferencia"
+                  ? "bg-teal-600 border-teal-700"
+                  : "bg-white border-gray-300"
+              }`}
+            >
+              <View className="flex-row items-center">
+                <ClipboardList
+                  size={20}
+                  color={
+                    formData.paymentMethod === "transferencia"
+                      ? "#FFFFFF"
+                      : "#0D9488"
+                  }
+                />
+                <Text
+                  className={`ml-2 font-semibold ${
+                    formData.paymentMethod === "transferencia"
+                      ? "text-white"
+                      : "text-teal-700"
+                  }`}
+                >
+                  Transferencia
+                </Text>
+              </View>
+
+              {/* Icono de selección */}
+              {formData.paymentMethod === "transferencia" ? (
+                <View className="w-5 h-5 rounded-full bg-white items-center justify-center">
+                  <View className="w-3 h-3 rounded-full bg-teal-600" />
+                </View>
+              ) : (
+                <View className="w-5 h-5 rounded-full border border-gray-400" />
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {formData.paymentMethod === "tarjeta" && (
+            <View className="bg-white rounded-2xl p-4 border border-teal-100 mb-4 mt-3">
+              <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
+                Nombre del Titular
+              </Text>
+              <TextInput
+                className="bg-gray-50 rounded-xl px-3 py-3 mb-3 text-gray-900"
+                placeholder="Ej: Juan Pérez"
+                value={formData.cardHolderName}
+                onChangeText={(value) =>
+                  handleInputChange("cardHolderName", value)
+                }
+              />
+
+              <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
+                Número de Tarjeta
+              </Text>
+              <TextInput
+                className="bg-gray-50 rounded-xl px-3 py-3 mb-3 text-gray-900"
+                placeholder="0000 0000 0000 0000"
+                keyboardType="number-pad"
+                maxLength={16}
+                value={formData.cardNumber}
+                onChangeText={(value) => handleInputChange("cardNumber", value)}
+              />
+
+              <View className="flex-row gap-4">
+                <View className="flex-1">
+                  <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
+                    Fecha de Expiración
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 rounded-xl px-3 py-3 text-gray-900"
+                    placeholder="MM/AA"
+                    keyboardType="number-pad"
+                    maxLength={5}
+                    value={formData.expiryDate}
+                    onChangeText={(value) =>
+                      handleInputChange("expiryDate", value)
+                    }
+                  />
+                </View>
+
+                <View className="flex-1">
+                  <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
+                    CVV
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 rounded-xl px-3 py-3 text-gray-900"
+                    placeholder="000"
+                    keyboardType="number-pad"
+                    maxLength={3}
+                    secureTextEntry
+                    value={formData.cvv}
+                    onChangeText={(value) => handleInputChange("cvv", value)}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+
+          {formData.paymentMethod === "transferencia" && (
+            <View className="bg-white rounded-2xl p-4 border border-teal-100 mb-4 mt-3">
+              <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
+                Número de Cuenta o CLABE
+              </Text>
+              <TextInput
+                className="bg-gray-50 rounded-xl px-3 py-3 text-gray-900"
+                placeholder="Ej: 002910700000123456"
+                keyboardType="number-pad"
+                maxLength={18}
+                value={formData.bankAccount}
+                onChangeText={(value) =>
+                  handleInputChange("bankAccount", value)
+                }
+              />
+            </View>
+          )}
 
           {/* Términos */}
           <View className="flex-row items-center mt-6 mb-6">

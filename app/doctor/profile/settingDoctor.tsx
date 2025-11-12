@@ -40,23 +40,6 @@ export default function DoctorProfile() {
     card: "**** **** **** 4589",
   });
 
-  const reviews = [
-    {
-      id: 1,
-      name: "Carlos Martínez",
-      rating: 5,
-      comment: "Excelente atención y trato profesional.",
-      date: "Hace 2 días",
-    },
-    {
-      id: 2,
-      name: "María López",
-      rating: 5,
-      comment: "Muy humano y atento. Lo recomiendo ampliamente.",
-      date: "Hace 1 semana",
-    },
-  ];
-
   const handleSave = () => {
     setEditing(false);
     Alert.alert(
@@ -64,19 +47,6 @@ export default function DoctorProfile() {
       "Tu información fue guardada correctamente."
     );
   };
-
-  const renderStars = (rating: number) => (
-    <View className="flex-row">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          size={14}
-          color={i < Math.round(rating) ? "#F59E0B" : "#D1D5DB"}
-          fill={i < Math.round(rating) ? "#F59E0B" : "none"}
-        />
-      ))}
-    </View>
-  );
 
   return (
     <SafeAreaView className="flex-1 bg-teal-50">
@@ -229,24 +199,6 @@ export default function DoctorProfile() {
               </TouchableOpacity>
             )}
           </View>
-        </View>
-
-        {/* Reseñas */}
-        <View className="px-4 mb-6">
-          <Text className="text-lg font-bold text-gray-900 mb-3">Reseñas</Text>
-          {reviews.map((r) => (
-            <View
-              key={r.id}
-              className="bg-white rounded-2xl p-4 mb-3 border border-gray-100"
-            >
-              <View className="flex-row justify-between items-center mb-1">
-                <Text className="text-gray-800 font-semibold">{r.name}</Text>
-                {renderStars(r.rating)}
-              </View>
-              <Text className="text-gray-500 text-xs mb-1">{r.date}</Text>
-              <Text className="text-sm text-gray-600">{r.comment}</Text>
-            </View>
-          ))}
         </View>
 
         {/* Guardar cambios */}
