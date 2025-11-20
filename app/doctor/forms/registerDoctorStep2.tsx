@@ -14,11 +14,12 @@ import Input from "../../../components/InputForm";
 
 const RegisterDoctorStep2 = () => {
   const params = useLocalSearchParams();
-  const { phone, email, clinicAddress } = params;
+  const { phone, email } = params;
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    birthDate: "",
     specialty: "",
     licenseNumber: "",
     subSpecialties: "",
@@ -108,7 +109,7 @@ const RegisterDoctorStep2 = () => {
         ...formData,
         phone,
         email,
-        clinicAddress,
+        birthDate: formData.birthDate,
       },
     });
   };
@@ -157,6 +158,15 @@ const RegisterDoctorStep2 = () => {
             containerClass="flex-1 mb-4"
           />
         </View>
+
+        {/* Fecha de nacimiento */}
+        <Input
+          label="Fecha de nacimiento"
+          placeholder="YYYY-MM-DD"
+          value={formData.birthDate}
+          onChangeText={(value) => handleInputChange("birthDate", value)}
+          containerClass="mb-4"
+        />
 
         {/* Especialidad*/}
         <DropdownButtom

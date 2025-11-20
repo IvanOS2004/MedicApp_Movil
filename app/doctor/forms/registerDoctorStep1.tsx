@@ -15,7 +15,6 @@ const RegisterDoctorStep1 = () => {
   const [formData, setFormData] = useState({
     phone: "",
     email: "",
-    clinicAddress: "",
   });
 
   const handleInputChange = (field: string, value: string) => {
@@ -74,13 +73,6 @@ const RegisterDoctorStep1 = () => {
           keyboardType="email-address"
           value={formData.email}
           onChangeText={(value) => handleInputChange("email", value)}
-        />
-
-        <Input
-          label="Dirección del Consultorio / Clínica"
-          placeholder="Ej: Av. Reforma 123, CDMX"
-          value={formData.clinicAddress}
-          onChangeText={(value) => handleInputChange("clinicAddress", value)}
         />
 
         <TouchableOpacity

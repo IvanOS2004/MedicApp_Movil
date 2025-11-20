@@ -25,7 +25,6 @@ const RegisterDoctorStep3 = () => {
   const {
     phone,
     email,
-    clinicAddress,
     fullName,
     specialty,
     licenseNumber,
@@ -34,10 +33,18 @@ const RegisterDoctorStep3 = () => {
   } = params;
 
   const [formData, setFormData] = useState({
+    street: "",
+    number: "",
+    neighborhood: "",
+    postalCode: "",
+    city: "",
+    state: "",
+    country: "México",
+
     services: "",
     consultationCost: "",
     workingHours: "",
-    paymentMethod: "", // ✅ nuevo campo
+    paymentMethod: "",
     cardHolderName: "",
     cardNumber: "",
     expiryDate: "",
@@ -128,7 +135,82 @@ const RegisterDoctorStep3 = () => {
             </TouchableOpacity>
           </View>
 
+          {/* Dirección */}
           <Text className="text-lg font-bold text-gray-900 mb-4">
+            Dirección del Consultorio / Clínica
+          </Text>
+
+          <View className="flex-row gap-3">
+            <View className="flex-1">
+              <Input
+                label="Calle"
+                placeholder="Ej: Avenida Reforma"
+                value={formData.street}
+                onChangeText={(v) => handleInputChange("street", v)}
+              />
+            </View>
+
+            <View className="flex-1">
+              <Input
+                label="Colonia"
+                placeholder="Ej: Centro"
+                value={formData.neighborhood}
+                onChangeText={(v) => handleInputChange("neighborhood", v)}
+              />
+            </View>
+          </View>
+
+          <View className="flex-row gap-3">
+            <View className="flex-1">
+              <Input
+                label="Número"
+                placeholder="Ej: 123"
+                keyboardType="numeric"
+                value={formData.number}
+                onChangeText={(v) => handleInputChange("number", v)}
+              />
+            </View>
+
+            <View className="flex-1">
+              <Input
+                label="Código Postal"
+                placeholder="Ej: 06000"
+                keyboardType="number-pad"
+                maxLength={5}
+                value={formData.postalCode}
+                onChangeText={(v) => handleInputChange("postalCode", v)}
+              />
+            </View>
+          </View>
+
+          <View className="flex-row gap-3">
+            <View className="flex-1">
+              <Input
+                label="Ciudad"
+                placeholder="Ej: Ciudad de México"
+                value={formData.city}
+                onChangeText={(v) => handleInputChange("city", v)}
+              />
+            </View>
+            <View className="flex-1">
+              <Input
+                label="Estado / Región"
+                placeholder="Ej: CDMX"
+                value={formData.state}
+                onChangeText={(v) => handleInputChange("state", v)}
+              />
+            </View>
+          </View>
+
+          <Input
+            label="País"
+            placeholder="México"
+            value={formData.country}
+            editable={false}
+          />
+
+          {/* Detalles del consultorio */}
+          <Text className="text-lg font-bold text-gray-900 mt-6 mb-4">
             Detalles del Consultorio
           </Text>
 
@@ -162,7 +244,7 @@ const RegisterDoctorStep3 = () => {
           </Text>
 
           <View className="flex-row justify-between">
-            {/* Tarjeta de Crédito */}
+            {/* Tarjeta */}
             <TouchableOpacity
               onPress={() => handleInputChange("paymentMethod", "tarjeta")}
               className={`flex-1 flex-row items-center justify-between py-4 px-4 mx-1 rounded-2xl border ${
@@ -189,7 +271,6 @@ const RegisterDoctorStep3 = () => {
                 </Text>
               </View>
 
-              {/* Icono de selección */}
               {formData.paymentMethod === "tarjeta" ? (
                 <View className="w-5 h-5 rounded-full bg-white items-center justify-center">
                   <View className="w-3 h-3 rounded-full bg-teal-600" />
@@ -199,7 +280,7 @@ const RegisterDoctorStep3 = () => {
               )}
             </TouchableOpacity>
 
-            {/* Transferencia Bancaria */}
+            {/* Transferencia */}
             <TouchableOpacity
               onPress={() =>
                 handleInputChange("paymentMethod", "transferencia")
@@ -230,7 +311,6 @@ const RegisterDoctorStep3 = () => {
                 </Text>
               </View>
 
-              {/* Icono de selección */}
               {formData.paymentMethod === "transferencia" ? (
                 <View className="w-5 h-5 rounded-full bg-white items-center justify-center">
                   <View className="w-3 h-3 rounded-full bg-teal-600" />
@@ -241,6 +321,7 @@ const RegisterDoctorStep3 = () => {
             </TouchableOpacity>
           </View>
 
+          {/* Tarjeta */}
           {formData.paymentMethod === "tarjeta" && (
             <View className="bg-white rounded-2xl p-4 border border-teal-100 mb-4 mt-3">
               <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
@@ -302,6 +383,7 @@ const RegisterDoctorStep3 = () => {
             </View>
           )}
 
+          {/* Transferencia */}
           {formData.paymentMethod === "transferencia" && (
             <View className="bg-white rounded-2xl p-4 border border-teal-100 mb-4 mt-3">
               <Text className="text-gray-700 text-sm font-medium mb-1 ml-1">
@@ -337,7 +419,7 @@ const RegisterDoctorStep3 = () => {
             </Text>
           </View>
 
-          {/* Botón Registrar */}
+          {/* Botón */}
           <TouchableOpacity
             className={`bg-teal-600 py-4 rounded-xl items-center ${
               loading ? "opacity-50" : ""
